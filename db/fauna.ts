@@ -12,10 +12,9 @@ if (!secret) {
 
 const client = new Client({ secret });
 
-import { db } from "../interfaces/db.ts";
-import { Todo } from "../interfaces/todo.ts";
+import { Todo, TodoList, db } from "./interfaces/interfaces.ts";
 
-export const fauna: db = {
+export default {
   newTodo(
     title: string,
     description: string,
@@ -24,7 +23,10 @@ export const fauna: db = {
   ): Todo {
     return { completed, description, title };
   },
-  getTodoList(listID: string): Todo[] {
-    return [];
-  },
-};
+  getTodoList(listID: string): TodoList {
+    return {
+      id: listID,
+      todos: [],
+    };
+  }
+} as db;
