@@ -7,16 +7,18 @@ import { TodoLists } from "db/interfaces/interfaces.ts";
 
 
 export const handler: Handlers<any, TodoLists> = {
-  GET(_req, ctx) {
-    return ctx.render(TodoLists)
+  GET(req, ctx) {
+    console.log(ctx.state.lists);
+    
+    return ctx.render(ctx.state.lists);
   },
 };
 
-export default function Home(props: PageProps<TodoLists | null>) {
+export default function Home({ data }: PageProps<TodoLists | null>) {
   return (
     <div class={tw`p-4 mx-auto max-w-screen-md`}>
       <h1>TODO</h1>
-      {props.}
+      {JSON.stringify(data)}
     </div>
   );
 }

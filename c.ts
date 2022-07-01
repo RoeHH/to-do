@@ -1,0 +1,1 @@
+console.log(JSON.parse(`["haha","hdhd","dhf"]`)[0]);
