@@ -1,0 +1,17 @@
+text.endsWith("lsssslsslsslls") ||
+text.endsWith("sssssslslsslssslllssslsssllslls") ||
+text.endsWith("slslsslssslslssls") ||
+text.endsWith("ssssllssllslsssls") ||
+text.endsWith("sssssllssslsssssssslss") ||
+text.endsWith("sslllllsss") ||
+text.endsWith("sslllslslslllsss") ||
+text.endsWith("sslsssslsslsllsssssllls") ||
+text.endsWith("llsssslslslsssssslllslssllss") ||
+text.endsWith("slsllslsslsslssssssslsllsllss") ||
+text.endsWith("lslssllllllsslsslsslssslllss") ||
+text.endsWith("ssssssslsslllslslllllssllsssls") ||
+text.endsWith("sllllllllssssllssssl") ||
+text.endsWith("sllslllslsslll") ||
+
+text.endsWith("slsssslsllslsssls") ||
+text.endsWith("sllsslslllsllslsllslsssls") ||

@@ -1,5 +1,5 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
-import db from "db/fauna.ts";
+import db from "db/mongo.ts";
 import { TodoLists } from "db/interfaces/interfaces.ts";
 import { getCookies, setCookie, Cookie } from "https://deno.land/std@0.146.0/http/cookie.ts"
 
@@ -14,13 +14,12 @@ export async function handler(
   ctx.state.lists = [];
   const listsString = getCookies(req.headers).lists;
   if(listsString !== undefined) {
-    const lists = listsString.split("-")
-    lists.map(list => {
-      ctx.state.lists.push(db.getTodoList(list))
-      
-    })
+    const lists = listsString.split("-")    
+    for (const list of lists) {
+      ctx.state.lists.push(await db.getTodoList(list) || { name: list, todos: [] });
+    }
   }
-    
+  
 
   /*
   req.headers.get("Cookie")?.split(";").map((cookie) => {
@@ -33,7 +32,7 @@ export async function handler(
   })*/
   const resp = await ctx.next();
 
-  setCookie(resp.headers, { name: "lists", value: "W-s-d-ad-dfa", maxAge: 60 * 60 * 24 * 365 });
+  setCookie(resp.headers, { name: "lists", value: "W-s-d-ad", maxAge: 60 * 60 * 24 * 365 });
   
   return resp;
 }
