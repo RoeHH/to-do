@@ -1,5 +1,5 @@
 import "https://deno.land/x/dotenv@v3.2.0/load.ts";
-import { MongoClient } from "https://deno.land/x/atlas_sdk@v1.0.2/mod.ts";
+import { MongoClient, ObjectId } from "https://deno.land/x/atlas_sdk@v1.0.2/mod.ts";
 import { db, Todo, TodoList } from "./interfaces/interfaces.ts";
 
 const secrets = {
@@ -43,4 +43,11 @@ export default {
   async getTodoList(listName: string): Promise<TodoList | undefined> {
     return { name: listName, todos: await todos.find({ listName: listName }) };
   },
+  async changeTodoState(_id:ObjectId): Promise<undefined> {
+    const todo = await todos.findOne({_id})
+    todo.completed = !todo.completed
+    await todos.updateOne({_id}, todo, {})
+    return;
+  }
 } as db;
+

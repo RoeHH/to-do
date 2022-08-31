@@ -2,6 +2,7 @@ import { MiddlewareHandlerContext } from "$fresh/server.ts";
 import db from "db/mongo.ts";
 import { TodoLists } from "db/interfaces/interfaces.ts";
 import { getCookies, setCookie, Cookie } from "https://deno.land/std@0.146.0/http/cookie.ts"
+import { ObjectId } from "https://deno.land/x/atlas_sdk@v1.0.2/mod.ts";
 
 
 export async function handler(
@@ -32,7 +33,6 @@ export async function handler(
   })*/
   const resp = await ctx.next();
 
-  setCookie(resp.headers, { name: "lists", value: "W-s-d-ad", maxAge: 60 * 60 * 24 * 365 });
-  
+  setCookie(resp.headers, { name: "lists", value: "W-test-d-ad", maxAge: 60 * 60 * 24 * 365 });
   return resp;
 }

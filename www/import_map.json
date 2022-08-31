@@ -4,9 +4,12 @@
     "preact": "https://esm.sh/preact@10.8.1",
     "preact/": "https://esm.sh/preact@10.8.1/",
     "preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.0?deps=preact@10.8.1",
-    "@twind": "./www/utils/twind.ts",
+    "@twind": "./utils/twind.ts",
     "twind": "https://esm.sh/twind@0.16.17",
     "twind/": "https://esm.sh/twind@0.16.17/",
-    "db/": "./db/"
+    "db/": "../db/",
+    "db/interfaces": "../db/interfaces/interfaces.ts",
+    "components/": "./components/",
+    "islands/": "./islands/"
   }
 }
