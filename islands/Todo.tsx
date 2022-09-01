@@ -9,18 +9,14 @@ interface CounterProps {
   todo: Todo;
 }
 
-export default function TodoField(props: CounterProps) {
-  console.log(props.todo.completed);
+export default function TodoField(props: CounterProps) { 
   
   const [done, setDone] = useState(props.todo.completed);
   const changeState = () => {
     setDone(!done);
-    fetch("http://localhost:8000/api/changeTodoState/"+props.todo._id)
+    fetch("http://localhost:8000/api/changeTodoState/" + props.todo._id)
   }
   return (
-    <li class={done ? tw`font-light	opacity-100 line-through` : tw`font-medium hover:opacity-100`}>
-      <button onClick={changeState}>+</button>
-      {done ? "t": "f"}{props.todo.title}
-      </li>
+    <li onClick={changeState} class={tw`cursor-pointer` + (done ? tw`font-light line-through` : tw`font-medium hover:font-light`)}>{props.todo.title}</li>
   );
 }

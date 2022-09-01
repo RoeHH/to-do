@@ -4,17 +4,25 @@
 
 import * as $0 from "./routes/_middleware.ts";
 import * as $1 from "./routes/api/changeTodoState/[id].ts";
-import * as $2 from "./routes/index.tsx";
+import * as $2 from "./routes/api/new/[listid].ts";
+import * as $3 from "./routes/index.tsx";
+import * as $4 from "./routes/login.ts";
+import * as $5 from "./routes/oauth2/callback.ts";
 import * as $$0 from "./islands/Todo.tsx";
+import * as $$1 from "./islands/list.tsx";
 
 const manifest = {
   routes: {
     "./routes/_middleware.ts": $0,
     "./routes/api/changeTodoState/[id].ts": $1,
-    "./routes/index.tsx": $2,
+    "./routes/api/new/[listid].ts": $2,
+    "./routes/index.tsx": $3,
+    "./routes/login.ts": $4,
+    "./routes/oauth2/callback.ts": $5,
   },
   islands: {
     "./islands/Todo.tsx": $$0,
+    "./islands/list.tsx": $$1,
   },
   baseUrl: import.meta.url,
 };

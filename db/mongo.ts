@@ -29,16 +29,20 @@ const todos = db.collection<MongoTodo>("todos");
 export default {
   async newTodo(
     title: string,
-    description: string,
     completed: boolean,
     listName: string,
-  ): Promise<string> {
-    return (await todos.insertOne({
-      title,
-      description,
-      completed,
-      listName,
-    })).insertedId || "";
+  ): Promise<Todo> {
+
+    console.log(ObjectId.generate().toString());
+    
+    return await todos.findOne({ _id:(new ObjectId(
+      (await todos.insertOne({
+        title,
+        completed,
+        listName,
+        _id: ObjectId.createFromTime(new Date().getTime()).toString()
+       })).insertedId||""
+    ))});
   },
   async getTodoList(listName: string): Promise<TodoList | undefined> {
     return { name: listName, todos: await todos.find({ listName: listName }) };

@@ -7,9 +7,10 @@
     "@twind": "./utils/twind.ts",
     "twind": "https://esm.sh/twind@0.16.17",
     "twind/": "https://esm.sh/twind@0.16.17/",
-    "db/": "../db/",
-    "db/interfaces": "../db/interfaces/interfaces.ts",
+    "db/": "./db/",
+    "db/interfaces": "./db/interfaces/interfaces.ts",
     "components/": "./components/",
+    "utils/": "./utils/",
     "islands/": "./islands/"
   }
 }
