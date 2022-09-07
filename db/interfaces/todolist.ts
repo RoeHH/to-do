@@ -1,7 +1,7 @@
 import { Todo } from './todo.ts';
 
 export interface TodoList {
-    name: string;
+    id: string;
     todos: Todo[];
 }
 

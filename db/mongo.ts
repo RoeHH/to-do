@@ -1,7 +1,7 @@
-import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 import { MongoClient, ObjectId } from "https://deno.land/x/atlas_sdk@v1.0.2/mod.ts";
 import { db, Todo, TodoList } from "./interfaces/interfaces.ts";
 
+import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 const secrets = {
   key: Deno.env.get("DATA_API_KEY"),
   app: Deno.env.get("APP_ID"),
@@ -20,7 +20,7 @@ const client = new MongoClient({
 });
 
 interface MongoTodo extends Todo {
-  listName: string;
+  listId: string;
 }
 
 const db = client.database("todo");
@@ -30,27 +30,26 @@ export default {
   async newTodo(
     title: string,
     completed: boolean,
-    listName: string,
+    listId: string,
   ): Promise<Todo> {
 
-    console.log(ObjectId.generate().toString());
     
     return await todos.findOne({ _id:(new ObjectId(
       (await todos.insertOne({
         title,
         completed,
-        listName,
-        _id: ObjectId.createFromTime(new Date().getTime()).toString()
+        listId,
+        uuid: crypto.randomUUID()
        })).insertedId||""
     ))});
   },
-  async getTodoList(listName: string): Promise<TodoList | undefined> {
-    return { name: listName, todos: await todos.find({ listName: listName }) };
+  async getTodoList(listId: string): Promise<TodoList | undefined> {
+    return { id: listId, todos: await todos.find({ listId: listId }) };
   },
-  async changeTodoState(_id:ObjectId): Promise<undefined> {
-    const todo = await todos.findOne({_id})
+  async changeTodoState(uuid:string): Promise<undefined> {
+    const todo = await todos.findOne({uuid})
     todo.completed = !todo.completed
-    await todos.updateOne({_id}, todo, {})
+    await todos.updateOne({uuid}, todo, {})
     return;
   }
 } as db;

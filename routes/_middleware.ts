@@ -1,23 +1,29 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
 import db from "db/mongo.ts";
-import { TodoLists } from "db/interfaces/interfaces.ts";
-import { getCookies, setCookie, Cookie } from "https://deno.land/std@0.146.0/http/cookie.ts"
-import { ObjectId } from "https://deno.land/x/atlas_sdk@v1.0.2/mod.ts";
-import { oauth2Client, gitHubApi } from "utils/oauth2.ts";
+import { TodoList } from "db/interfaces/interfaces.ts";
+import { getCookies, setCookie } from "https://deno.land/std@0.146.0/http/cookie.ts"
+import { oauth2Client, gitHubApi, User } from "utils/oauth2.ts";
+
+export interface CtxState {
+  lists: TodoList[]
+  user: User | undefined
+}
 
 export async function handler(
   req: Request,
-  ctx: MiddlewareHandlerContext<TodoLists>,
+  ctx: MiddlewareHandlerContext<CtxState>,
 ) {
   if(new URL(req.url).pathname.split("/")[1] === "favicon.ico") {
     return fetch("https://roeh.ch/img/logo.png");
   }
   ctx.state.lists = [];
 
+
   const maybeAccessToken = getCookies(req.headers)["gh_token"];
   if (maybeAccessToken) {
     const user = await gitHubApi.getUserData(maybeAccessToken)
     if (user) {
+      ctx.state.user = user
       ctx.state.lists.push(await db.getTodoList(user.userId.toString()) || { name: user.userId.toString(), todos: [] });
       return await ctx.next();
     }
@@ -34,9 +40,9 @@ export async function handler(
   const accessToken = (await oauth2Client.code.getToken(req.url)).accessToken;
 
   const user = await gitHubApi.getUserData(accessToken)
-
+  ctx.state.user = user
   
-  ctx.state.lists.push(await db.getTodoList(user.userId.toString()) || { name: user.userId.toString(), todos: [] });
+  ctx.state.lists.push(await db.getTodoList(user.userId.toString()) || { id: user.userId.toString(), todos: [] });
 
   const response = await ctx.next();
   setCookie(response.headers, {
